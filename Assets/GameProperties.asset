@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e86d339ba0fd1847b2f4659dab12297, type: 3}
+  m_Name: GameProperties
+  m_EditorClassIdentifier: 
+  MeleeEntity: {fileID: 1030317505917544603, guid: 9ccf4002da8208b42b1bf0adb102122a,
+    type: 3}
+  RangedEntity: {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67,
+    type: 3}
+  EnemyPrefab: {fileID: 6937507032068607102, guid: 10867e5b99e04794a819f61024be93c5,
+    type: 3}

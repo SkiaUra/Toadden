@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   targetedLane: 1
-  HitFX: {fileID: 0}
+  HitFX: {fileID: 1711415206062224821, guid: 45938af525598474e9d5d83b6ea1e9e5, type: 3}
+  TrailFX: {fileID: 5336948652958163836, guid: 9a86b4857dc954349b46ff0fd1097deb, type: 3}
   moveAtAttackRange: 0
-  attackRange: 1
+  attackRange: 3
   attackCD: 2

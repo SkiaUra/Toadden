@@ -20,6 +20,9 @@ public class CanvasManager : MonoBehaviour
 	[Required]
 	public Button buttonRestart;
 
+	[Required]
+	public Button buttonSwapFront, buttonSwapBack;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -29,6 +32,9 @@ public class CanvasManager : MonoBehaviour
 			{
 				Debug.Log("Start the battle");
 				battleManager.StartBattle();
+				// disable UI
+				buttonSwapBack.gameObject.SetActive(false);
+				buttonSwapFront.gameObject.SetActive(false);
 				buttonStartBattle.interactable = false;
 			});
 		buttonRestart
@@ -37,9 +43,25 @@ public class CanvasManager : MonoBehaviour
 			{
 				Debug.Log("Restart the battle");
 				battleManager.SetupBattle();
+				buttonSwapBack.gameObject.SetActive(true);
+				buttonSwapFront.gameObject.SetActive(true);
 				buttonStartBattle.interactable = true;
 				buttonRestart.interactable = false;
 			});
 		buttonRestart.interactable = false;
+
+		buttonSwapFront
+		.onClick
+		.AddListener(delegate ()
+		{
+			battleManager.formationManager.SwitchFormations(FormationPlaces.MIDLANE, FormationPlaces.FRONTLANE);
+		});
+
+		buttonSwapBack
+		.onClick
+		.AddListener(delegate ()
+		{
+			battleManager.formationManager.SwitchFormations(FormationPlaces.MIDLANE, FormationPlaces.BACKLANE);
+		});
 	}
 }

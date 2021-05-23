@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   targetedLane: 0
+  CastFX: {fileID: 1711415206062224821, guid: 94fc9d97106bcf74ca9d5855ada811d7, type: 3}
+  CastOffset: {x: 0, y: 0.5, z: 0}
   HitFX: {fileID: 0}
+  HitOffset: {x: 0, y: 0, z: 0}
+  TrailFX: {fileID: 0}
+  TrailOffset: {x: 0, y: 0, z: 0}
   moveAtAttackRange: 1
   attackRange: 1
   attackCD: 2
