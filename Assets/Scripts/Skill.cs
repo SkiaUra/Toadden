@@ -19,7 +19,7 @@ public class Skill : ScriptableObject {
     public float attackRange;
     public float attackCD;
 
-    public async UniTask PlaySkill(LivingEntity _Caster, LivingEntity _Target) {
+    public virtual async UniTask PlaySkill(LivingEntity _Caster, LivingEntity _Target) {
         Debug.LogWarning("Attack launched with " + _Caster.name + " on " + _Target);
         await UniTask.Delay(100);
         if (CastFX != null) PlayCastFX(CastFX, _Caster.transform);
@@ -32,16 +32,16 @@ public class Skill : ScriptableObject {
         _Caster.entityState = EntityStates.IDLE;
     }
 
-    public void PlayCastFX(GameObject _AssetFX, Transform _PlayPosition) {
+    public virtual void PlayCastFX(GameObject _AssetFX, Transform _PlayPosition) {
         Instantiate(_AssetFX, _PlayPosition.position + CastOffset, _PlayPosition.transform.rotation);
     }
 
-    public void PlayHitFX(GameObject _AssetFX, Transform _PlayPosition) {
-        Instantiate(_AssetFX, _PlayPosition.position + HitOffset, _PlayPosition.transform.rotation);
+    public virtual void PlayHitFX(GameObject _AssetFX, Transform _PlayPosition) {
+        Instantiate(_AssetFX, _PlayPosition.position + HitOffset, Quaternion.identity);
     }
 
-    public void PlayTrailFX(GameObject _AssetFX, Transform _StartPosition, Transform _EndPosition) {
-        GameObject trail = Instantiate(_AssetFX, _StartPosition);
-        trail.transform.DOMove(_EndPosition.position, 1f).SetEase(Ease.Linear);
+    public virtual async UniTask PlayTrailFX(GameObject _AssetFX, Transform _StartPosition, Transform _EndPosition) {
+        GameObject trail = Instantiate(_AssetFX, _StartPosition.position + TrailOffset, Quaternion.identity);
+        trail.transform.DOMove(_EndPosition.position + TrailOffset, 0.5f).SetEase(Ease.Linear);
     }
 }

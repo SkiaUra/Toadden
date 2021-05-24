@@ -9,13 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f882f99cf81a6854f8988d19973d7941, type: 3}
-  m_Name: Skill_RangeAttack
+  m_Script: {fileID: 11500000, guid: 46d3c2d47a850ea459e6600c60dc240d, type: 3}
+  m_Name: Skill_Mortar
   m_EditorClassIdentifier: 
   damage: 1
-  targetedLane: 1
+  targetedLane: 0
+  CastFX: {fileID: 0}
+  CastOffset: {x: 0, y: 0, z: 0}
   HitFX: {fileID: 1711415206062224821, guid: 45938af525598474e9d5d83b6ea1e9e5, type: 3}
+  HitOffset: {x: 0, y: 0.5, z: 0}
   TrailFX: {fileID: 5336948652958163836, guid: 9a86b4857dc954349b46ff0fd1097deb, type: 3}
-  moveAtAttackRange: 0
-  attackRange: 3
-  attackCD: 2
+  TrailOffset: {x: 0, y: 0.5, z: 0}
+  moveAtAttackRange: 1
+  attackRange: 10
+  attackCD: 4
+  easingTrail: 0
