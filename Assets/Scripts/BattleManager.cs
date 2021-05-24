@@ -84,36 +84,42 @@ public class BattleManager : SerializedMonoBehaviour {
         }
         EnemyTeam.Clear();
 
-        foreach (Pos _formation in formationManager.BattlePositions) {
-            LivingEntity instantiatedEntity;
-            GameObject entityToSpawn = null;
-            if (_formation.formationPlace == FormationPlaces.FRONTLANE) entityToSpawn = gameProperties.MeleeEntity;
-            if (_formation.formationPlace == FormationPlaces.MIDLANE) entityToSpawn = gameProperties.RangedEntity;
-            if (_formation.formationPlace == FormationPlaces.BACKLANE) entityToSpawn = gameProperties.RangedEntity;
-            if (entityToSpawn == null) continue;
+        LivingEntity instantiatedEntity;
+        GameObject entityToSpawn = null;
+        int a = Mathf.RoundToInt(formationManager.BattlePositions.Count * 0.5f);
 
-            switch (_formation.entityTeam) {
-                case EntityType.ALLY:
-                    instantiatedEntity = Instantiate(entityToSpawn, _formation.startPos.transform.position, _formation.startPos.transform.rotation).GetComponent<LivingEntity>();
-                    AllyTeam.Add(instantiatedEntity);
-                    instantiatedEntity.entityType = EntityType.ALLY;
-                    instantiatedEntity.battleManager = this;
-                    instantiatedEntity.startPos = _formation.startPos;
-                    instantiatedEntity.entityState = EntityStates.WAITING;
-                    //instantiatedEntity.LinkedPos = _formation;
-                    _formation.entityonit = instantiatedEntity;
-                    break;
-                case EntityType.ENEMY:
-                    instantiatedEntity = Instantiate(entityToSpawn, _formation.startPos.transform.position, _formation.startPos.transform.rotation).GetComponent<LivingEntity>();
-                    EnemyTeam.Add(instantiatedEntity);
-                    instantiatedEntity.entityType = EntityType.ENEMY;
-                    instantiatedEntity.battleManager = this;
-                    instantiatedEntity.startPos = _formation.startPos;
-                    instantiatedEntity.entityState = EntityStates.WAITING;
-                    //instantiatedEntity.LinkedPos = _formation;
-                    _formation.entityonit = instantiatedEntity;
-                    break;
-            }
+        // Setup ally team comp
+        for (int i = 0; i < a; i++) {
+            entityToSpawn = gameProperties.AllyFormation[i];
+            var _Formation = formationManager.BattlePositions[i];
+
+            instantiatedEntity = Instantiate(entityToSpawn, _Formation.startPos.transform.position, _Formation.startPos.transform.rotation).GetComponent<LivingEntity>();
+            AllyTeam.Add(instantiatedEntity);
+            instantiatedEntity.entityType = EntityType.ALLY;
+            instantiatedEntity.battleManager = this;
+            instantiatedEntity.startPos = _Formation.startPos;
+            instantiatedEntity.linkedPos = _Formation;
+            instantiatedEntity.entityState = EntityStates.WAITING;
+            _Formation.entityonit = instantiatedEntity;
+        }
+
+        // Setup Enemy wave
+        for (int i = a; i < formationManager.BattlePositions.Count; i++) {
+            var _Formation = formationManager.BattlePositions[i];
+            if (_Formation.formationPlace == FormationPlaces.FRONTLANE) entityToSpawn = gameProperties.MeleeEntity;
+            if (_Formation.formationPlace == FormationPlaces.MIDLANE) entityToSpawn = gameProperties.RangedEntity;
+            if (_Formation.formationPlace == FormationPlaces.BACKLANE) entityToSpawn = gameProperties.RangedEntity;
+
+            entityToSpawn = gameProperties.Enemyformation[i - a];
+
+            instantiatedEntity = Instantiate(entityToSpawn, _Formation.startPos.transform.position, _Formation.startPos.transform.rotation).GetComponent<LivingEntity>();
+            EnemyTeam.Add(instantiatedEntity);
+            instantiatedEntity.entityType = EntityType.ENEMY;
+            instantiatedEntity.battleManager = this;
+            instantiatedEntity.startPos = _Formation.startPos;
+            instantiatedEntity.linkedPos = _Formation;
+            instantiatedEntity.entityState = EntityStates.WAITING;
+            _Formation.entityonit = instantiatedEntity;
         }
     }
 }

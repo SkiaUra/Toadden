@@ -32,8 +32,6 @@ public class LivingEntity : MonoBehaviour {
     public float moveSpeed = 1f;
 
     [TabGroup("Battle", "Stats")]
-    public float targetRangeMin, targetRangeMax;
-    [TabGroup("Battle", "Stats")]
     public int healthCurrent, healthMax;
     [TabGroup("Battle", "Stats")]
     public float cooldownAttack, attackSpeed, initiative;
@@ -53,6 +51,8 @@ public class LivingEntity : MonoBehaviour {
     public GameObject startPos;
     [TabGroup("Battle", "Character")]
     public FormationPlaces formationPlace;
+    [TabGroup("Battle", "Character")]
+    public Pos linkedPos;
 
     public bool attackIsCasting;
     private float distanceBetweenTarget;
@@ -126,36 +126,26 @@ public class LivingEntity : MonoBehaviour {
     }
 
     public LivingEntity GetTarget() {
-        // check si la créa remplie la condition d'attaque
-        switch (entityType) {
-            case EntityType.ALLY:
-                if (battleManager.EnemyTeam.Count != 0) {
-                    // get prefered target 
-                    var AvailableTargets = battleManager.EnemyTeam.Where(t => t.formationPlace == FormationPlaces.FRONTLANE).ToArray();
-                    if (AvailableTargets.Length > 0) {
-                        return AvailableTargets[Random.Range(0, AvailableTargets.Length)];
-                    } else {
-                        // get one random yolo
-                        return battleManager.EnemyTeam[Random.Range(0, battleManager.EnemyTeam.Count)];
-                    }
-                } else {
-                    return null;
-                }
+        // Setup les variables de controle
+        List<LivingEntity> checkList = battleManager.AllyTeam;
+        if (entityType == EntityType.ALLY) checkList = battleManager.EnemyTeam;
+        if (entityType == EntityType.ENEMY) checkList = battleManager.AllyTeam;
 
-            case EntityType.ENEMY:
-                if (battleManager.AllyTeam.Count != 0) {
-                    var AvailableTargets = battleManager.AllyTeam.Where(t => t.formationPlace == FormationPlaces.FRONTLANE).ToArray();
-                    if (AvailableTargets.Length > 0) {
-                        return AvailableTargets[Random.Range(0, AvailableTargets.Length)];
-                    } else {
-                        return battleManager.AllyTeam[Random.Range(0, battleManager.AllyTeam.Count)];
-                    }
-                } else {
-                    return null;
-                }
+        if (checkList.Count != 0) {
+            // get prefered target
+            var AvailableTargets = checkList.Where(t => t.formationPlace == attackSkill.targetedLane).ToArray();
+            if (AvailableTargets.Length > 0) {
+                Debug.Log("PreferedTarget selected between " + AvailableTargets.Length);
+                return AvailableTargets[Random.Range(0, AvailableTargets.Length)];
+            } else {
+                // No PreferedTarget
+                Debug.Log("No PreferedTarget Found");
+                return checkList[Random.Range(0, checkList.Count)];
+            }
+        } else {
+            Debug.Log("No Target Found");
+            return null;
         }
-        Debug.LogWarning("Danger GetTarget()");
-        return null;
     }
 
     private void SetupHealthBar() {
@@ -169,13 +159,15 @@ public class LivingEntity : MonoBehaviour {
     public async void Autokill(bool _InstantKill = false) {
         Tween destroyAnim = this.gameObject.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
         if (_InstantKill == false) await UniTask.WaitUntil(() => destroyAnim.IsPlaying() == false);
-        Destroy(healthBar.gameObject);
+        if (healthBar != null) Destroy(healthBar.gameObject);
         Destroy(this.gameObject);
     }
 
     private void OnDrawGizmos() {
         UnityEditor.Handles.color = Color.green;
-        UnityEditor.Handles.DrawWireDisc(this.transform.position, Vector3.forward, attackSkill.attackRange);
-        if (targetedEntity != null) UnityEditor.Handles.DrawLine(this.transform.position, targetedEntity.transform.position);
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        UnityEditor.Handles.DrawWireDisc(pos, Vector3.forward, attackSkill.attackRange);
+        UnityEditor.Handles.color = Color.red;
+        if (targetedEntity != null) UnityEditor.Handles.DrawLine(pos, targetedEntity.transform.position);
     }
 }
