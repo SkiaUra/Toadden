@@ -15,6 +15,7 @@ public class Skill : ScriptableObject {
     public Vector3 HitOffset;
     public GameObject TrailFX;
     public Vector3 TrailOffset;
+    public float trailSpeed = 0.5f;
     public bool moveAtAttackRange;
     public float attackRange;
     public float attackCD;
@@ -42,6 +43,6 @@ public class Skill : ScriptableObject {
 
     public virtual async UniTask PlayTrailFX(GameObject _AssetFX, Transform _StartPosition, Transform _EndPosition) {
         GameObject trail = Instantiate(_AssetFX, _StartPosition.position + TrailOffset, Quaternion.identity);
-        trail.transform.DOMove(_EndPosition.position + TrailOffset, 0.5f).SetEase(Ease.Linear);
+        trail.transform.DOMove(_EndPosition.position + TrailOffset, trailSpeed).SetEase(Ease.Linear);
     }
 }

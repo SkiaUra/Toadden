@@ -29,17 +29,19 @@ public class InputManager : MonoBehaviour {
         }
 
         if (clicking && Input.GetMouseButtonUp(0) && allowInput == true) {// If a first click detected, and we release before the duration, do a normal click
-            await NormalClick();
+            NormalClick();
         }
     }
 
-    async UniTask NormalClick() {
+    private void NormalClick() {
         Debug.Log("Normal Click");
 
         LivingEntity clickedTarget = RaycastEntity();
-        if (clickedTarget == null || clickedTarget.entityType == EntityType.ENEMY) return;
+        if (clickedTarget == null || clickedTarget.team == Team.ENEMY) return;
+        battleManager.canvasManager.characterSwitcher.Hide();
         if (selectedEntity == null) {
             // Add new memory
+            battleManager.canvasManager.characterSwitcher.Show(clickedTarget);
             selectedEntity = clickedTarget;
         } else {
             if (clickedTarget == selectedEntity) {

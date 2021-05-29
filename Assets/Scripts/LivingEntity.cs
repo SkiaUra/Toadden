@@ -13,7 +13,7 @@ public enum EntityStates {
     DEAD
 }
 
-public enum EntityType {
+public enum Team {
     ALLY,
     ENEMY
 }
@@ -37,7 +37,9 @@ public class LivingEntity : MonoBehaviour {
     public float cooldownAttack, attackSpeed, initiative;
 
     [TabGroup("Battle", "Character")]
-    public EntityType entityType;
+    public Team team;
+    [TabGroup("Battle", "Character")]
+    public CreatureSpecies creatureSpacies;
     [TabGroup("Battle", "Character")]
     public bool canAttack = false;
     [TabGroup("Battle", "Character")]
@@ -71,8 +73,8 @@ public class LivingEntity : MonoBehaviour {
         healthBar.RefreshVisuals(healthCurrent, healthMax);
 
         if (healthCurrent <= 0 && entityState != EntityStates.DEAD) {
-            if (entityType == EntityType.ALLY) battleManager.AllyTeam.Remove(this);
-            if (entityType == EntityType.ENEMY) battleManager.EnemyTeam.Remove(this);
+            if (team == Team.ALLY) battleManager.AllyTeam.Remove(this);
+            if (team == Team.ENEMY) battleManager.EnemyTeam.Remove(this);
             Autokill();
             entityState = EntityStates.DEAD;
         }
@@ -128,8 +130,8 @@ public class LivingEntity : MonoBehaviour {
     public LivingEntity GetTarget() {
         // Setup les variables de controle
         List<LivingEntity> checkList = battleManager.AllyTeam;
-        if (entityType == EntityType.ALLY) checkList = battleManager.EnemyTeam;
-        if (entityType == EntityType.ENEMY) checkList = battleManager.AllyTeam;
+        if (team == Team.ALLY) checkList = battleManager.EnemyTeam;
+        if (team == Team.ENEMY) checkList = battleManager.AllyTeam;
 
         if (checkList.Count != 0) {
             // get prefered target

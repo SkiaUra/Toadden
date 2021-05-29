@@ -19,6 +19,8 @@ public class CanvasManager : MonoBehaviour {
     [Required]
     public Button buttonRestart;
 
+    public CharacterSwitcher characterSwitcher;
+
     [Required]
     public Button buttonSwapFront, buttonSwapBack;
 
@@ -41,8 +43,8 @@ public class CanvasManager : MonoBehaviour {
                 battleManager.SetupBattle();
                 // buttonSwapBack.gameObject.SetActive(true);
                 // buttonSwapFront.gameObject.SetActive(true);
-                // buttonStartBattle.interactable = true;
-                // buttonRestart.interactable = false;
+                buttonStartBattle.interactable = true;
+                buttonRestart.interactable = false;
             });
         buttonRestart.interactable = false;
 
@@ -57,5 +59,9 @@ public class CanvasManager : MonoBehaviour {
         .AddListener(delegate () {
             battleManager.formationManager.SwitchFormations(FormationPlaces.MIDLANE, FormationPlaces.BACKLANE);
         });
+    }
+
+    public Vector3 WorldSpaceToCanvasSpace(Vector3 _position) {
+        return Camera.main.WorldToScreenPoint(_position);
     }
 }

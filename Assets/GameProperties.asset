@@ -12,9 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e86d339ba0fd1847b2f4659dab12297, type: 3}
   m_Name: GameProperties
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  creatureAssets:
+  - species: 0
+    gameObject: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 0ea34dda2bc3c40bd86e6c5fc1339f85, type: 3}
+  - species: 1
+    gameObject: {fileID: 1030317505917544603, guid: 9ccf4002da8208b42b1bf0adb102122a,
+      type: 3}
+    sprite: {fileID: 21300000, guid: 6f2b0cf7b5864467b871784156c5e912, type: 3}
+  - species: 2
+    gameObject: {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67,
+      type: 3}
+    sprite: {fileID: 21300000, guid: b5f3f233c837642888dae20b1dfca5c9, type: 3}
   MeleeEntity: {fileID: 1030317505917544603, guid: 9ccf4002da8208b42b1bf0adb102122a,
     type: 3}
   RangedEntity: {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67,
     type: 3}
   EnemyPrefab: {fileID: 6937507032068607102, guid: 10867e5b99e04794a819f61024be93c5,
     type: 3}
+  AllyFormation:
+  - {fileID: 1030317505917544603, guid: 9ccf4002da8208b42b1bf0adb102122a, type: 3}
+  - {fileID: 1030317505917544603, guid: 9ccf4002da8208b42b1bf0adb102122a, type: 3}
+  - {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67, type: 3}
+  - {fileID: 1030317505917544603, guid: 9ccf4002da8208b42b1bf0adb102122a, type: 3}
+  - {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67, type: 3}
+  - {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67, type: 3}
+  - {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67, type: 3}
+  Enemyformation:
+  - {fileID: 1030317505917544603, guid: 9ccf4002da8208b42b1bf0adb102122a, type: 3}
+  - {fileID: 1030317505917544603, guid: 9ccf4002da8208b42b1bf0adb102122a, type: 3}
+  - {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67, type: 3}
+  - {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67, type: 3}
+  - {fileID: 5519241924816283389, guid: d83ec9a953cf6744da8792ee96080e67, type: 3}
+  - {fileID: 1030317505917544603, guid: 9ccf4002da8208b42b1bf0adb102122a, type: 3}

@@ -9,7 +9,7 @@ public class Pos {
     public GameObject startPos;
     public LivingEntity entityonit;
     public FormationPlaces formationPlace;
-    public EntityType entityTeam;
+    public Team entityTeam;
 }
 
 public enum FormationPlaces {
@@ -32,8 +32,8 @@ public class FormationManager : MonoBehaviour {
             Pos p = new Pos();
             BattlePositions.Add(p);
             p.startPos = AllPositions[i];
-            if (AllPositions[i].name.Contains("Ally")) p.entityTeam = EntityType.ALLY;
-            if (AllPositions[i].name.Contains("Enemy")) p.entityTeam = EntityType.ENEMY;
+            if (AllPositions[i].name.Contains("Ally")) p.entityTeam = Team.ALLY;
+            if (AllPositions[i].name.Contains("Enemy")) p.entityTeam = Team.ENEMY;
             if (AllPositions[i].name.Contains("Front")) p.formationPlace = FormationPlaces.FRONTLANE;
             if (AllPositions[i].name.Contains("Mid")) p.formationPlace = FormationPlaces.MIDLANE;
             if (AllPositions[i].name.Contains("Back")) p.formationPlace = FormationPlaces.BACKLANE;
@@ -53,8 +53,8 @@ public class FormationManager : MonoBehaviour {
 
         // récuperer toutes les pos qui ont _SrcLane et ally && _DstLane et ally
         foreach (Pos CurrentPos in BattlePositions) {
-            if (CurrentPos.entityTeam == EntityType.ALLY && CurrentPos.formationPlace == _SrcLane) SrcList.Add(CurrentPos);
-            if (CurrentPos.entityTeam == EntityType.ALLY && CurrentPos.formationPlace == _DstLane) DstList.Add(CurrentPos);
+            if (CurrentPos.entityTeam == Team.ALLY && CurrentPos.formationPlace == _SrcLane) SrcList.Add(CurrentPos);
+            if (CurrentPos.entityTeam == Team.ALLY && CurrentPos.formationPlace == _DstLane) DstList.Add(CurrentPos);
         }
 
         if (SrcList.Count == 0 || DstList.Count == 0) Debug.Log("empty list");

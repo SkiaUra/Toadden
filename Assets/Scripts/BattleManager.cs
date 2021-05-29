@@ -17,9 +17,14 @@ public class BattleManager : SerializedMonoBehaviour {
     [Required]
     public GameProperties gameProperties;
     [Required]
+    public InputManager inputManager;
+    [Required]
     public CanvasManager canvasManager;
     [Required]
     public FormationManager formationManager;
+
+    [Required]
+    public GameObject entityFolder;
 
     public int startDelay;
 
@@ -63,6 +68,7 @@ public class BattleManager : SerializedMonoBehaviour {
         foreach (LivingEntity entity in EnemyTeam) {
             entity.entityState = EntityStates.IDLE;
         }
+        inputManager.allowInput = false;
         battleState = BattleStates.BATTLE;
     }
 
@@ -94,8 +100,9 @@ public class BattleManager : SerializedMonoBehaviour {
             var _Formation = formationManager.BattlePositions[i];
 
             instantiatedEntity = Instantiate(entityToSpawn, _Formation.startPos.transform.position, _Formation.startPos.transform.rotation).GetComponent<LivingEntity>();
+            instantiatedEntity.gameObject.transform.SetParent(entityFolder.transform);
             AllyTeam.Add(instantiatedEntity);
-            instantiatedEntity.entityType = EntityType.ALLY;
+            instantiatedEntity.team = Team.ALLY;
             instantiatedEntity.battleManager = this;
             instantiatedEntity.startPos = _Formation.startPos;
             instantiatedEntity.linkedPos = _Formation;
@@ -113,13 +120,30 @@ public class BattleManager : SerializedMonoBehaviour {
             entityToSpawn = gameProperties.Enemyformation[i - a];
 
             instantiatedEntity = Instantiate(entityToSpawn, _Formation.startPos.transform.position, _Formation.startPos.transform.rotation).GetComponent<LivingEntity>();
+            instantiatedEntity.gameObject.transform.SetParent(entityFolder.transform);
             EnemyTeam.Add(instantiatedEntity);
-            instantiatedEntity.entityType = EntityType.ENEMY;
+            instantiatedEntity.team = Team.ENEMY;
             instantiatedEntity.battleManager = this;
             instantiatedEntity.startPos = _Formation.startPos;
             instantiatedEntity.linkedPos = _Formation;
             instantiatedEntity.entityState = EntityStates.WAITING;
             _Formation.entityonit = instantiatedEntity;
         }
+    }
+
+    public LivingEntity SpawnNewCreatureOnBattlePos(CreatureSpecies _species, Pos _battlePos) {
+        GameObject entityToSpawn = gameProperties.GetCreatureGO(_species);
+        if (!entityToSpawn) return null;
+        _battlePos.entityonit.Autokill(true);
+        LivingEntity instantiatedEntity = Instantiate(entityToSpawn, _battlePos.startPos.transform.position, _battlePos.startPos.transform.rotation).GetComponent<LivingEntity>();
+        instantiatedEntity.gameObject.transform.SetParent(entityFolder.transform);
+        AllyTeam.Add(instantiatedEntity);
+        instantiatedEntity.team = Team.ALLY;
+        instantiatedEntity.battleManager = this;
+        instantiatedEntity.startPos = _battlePos.startPos;
+        instantiatedEntity.linkedPos = _battlePos;
+        instantiatedEntity.entityState = EntityStates.WAITING;
+        _battlePos.entityonit = instantiatedEntity;
+        return instantiatedEntity;
     }
 }

@@ -20,7 +20,9 @@ MonoBehaviour:
   HitOffset: {x: 0, y: 0.5, z: 0}
   TrailFX: {fileID: 5336948652958163836, guid: 9a86b4857dc954349b46ff0fd1097deb, type: 3}
   TrailOffset: {x: 0, y: 0.5, z: 0}
+  trailSpeed: 0.5
   moveAtAttackRange: 1
   attackRange: 10
   attackCD: 4
-  easingTrail: 0
+  easingTrail: 19
+  trailPeak: {x: 0, y: 4, z: 0}
